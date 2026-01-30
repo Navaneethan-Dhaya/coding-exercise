@@ -68,7 +68,7 @@
                     tr.innerHTML = `
               <td>${item.id}</td>
               <td>${item.name}</td>
-              <td>${item.quantity.toFixed(1)}</td>
+              <td>${item.quantity.toFixed(3)}</td>
               <td><input type="number" min="0" step="0.1" value="${item.quantity.toFixed(1)}" style="width: 80px;" /></td>
               <td><button>Order item</button></td>
             `;
@@ -78,7 +78,7 @@
                     button.addEventListener('click', () => {
                         const entered = parseFloat(input.value);
                         if (entered > item.quantity) {
-                            alert(`The quantity can't be ordered because ${entered} is more than ${item.quantity.toFixed(1)}.`);
+                            alert(`Order cannot be placed as entered quantity ${entered} is more than available quantity ${item.quantity} for ${item.name}.`);
                         } else {
                             alert(`Order placed for ${entered} of ${item.name}.`);
                         }
