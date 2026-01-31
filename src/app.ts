@@ -4,6 +4,9 @@ import { CONFIG } from './config';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import express from 'express';
+import is from 'is';
+
+
 
 import { uaLogger, requireAuth } from './middleware/appMiddleware';
 import { Item } from './items';
@@ -34,6 +37,10 @@ app.get('/', (req, res) => res.redirect('/login.html'));
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
 
+  if (!is.string(username) || !is.string(password)) {
+    return res.status(400).send('Invalid input');
+  }
+
   if (username === CONFIG.userName && password === CONFIG.userPassword) {
     (req.session as any).isAuthenticated = true;
     return res.sendStatus(200);
@@ -46,6 +53,11 @@ app.post('/api/login', (req, res) => {
 app.get('/api/items', requireAuth, async (req, res) => {
   const creds = CONFIG.dbPassword;
   const items: Item[] = await getItemsFromDatabase(creds);
+
+  if (!is.array(items) || !items.every(item => is.object(item))) {
+    return res.status(500).send('Invalid items data');
+  }
+
   res.json({ items });
 });
 

@@ -9,6 +9,7 @@ import {Item} from "./items";
  * @returns A new array containing the sorted item names.
  */
 export async function getSortedItemsNames(itemNames: string[]): Promise<string[]> {
+
   const preprocess = (name: string): string =>
       name.toLowerCase().trim();
 

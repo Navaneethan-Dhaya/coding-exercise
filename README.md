@@ -31,24 +31,39 @@ npm install
 npm test          # run unit tests
 npm start         # ts-node entrypoint
 npm run build     # tsc → dist/
+
+pip install pydicom pillow # for DICOM to JPEG conversion
 ```
 
 
-```curl Setup
-curl -X POST http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"username":"admin","password":"admin"}' 
-Ok
+# API & Frontend Quick Guide
 
-curl -X POST http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"username":"yourUsername","password":"yourPassword"}'
-Unauthorized
+Interact with the local API and frontend pages:
 
-curl -X GET http://localhost:3000/api/items -H "Content-Type: application/json"
+```bash
+# Access frontend pages
+# Login page
+1. http://localhost:3000
+2. http://localhost:3000/login.html
 
-http://localhost:3000/login.html
-http://localhost:3000/inventory.html
+For login use "admin" as username and password. 
+Note : This is meant for demo purpose and not intended for production use.
+# Inventory page
+1. http://localhost:3000/inventory.html
 
+# Login API
+curl -X POST http://localhost:3000/api/login \
+-H "Content-Type: application/json" \
+-d '{"username":"admin","password":"admin"}'
+
+# User login (unauthorized example)
+curl -X POST http://localhost:3000/api/login \
+-H "Content-Type: application/json" \
+-d '{"username":"yourUsername","password":"yourPassword"}'
+
+# Items API
+curl -X GET http://localhost:3000/api/items \
+-H "Content-Type: application/json"
 ```
-
-
-'
 
 

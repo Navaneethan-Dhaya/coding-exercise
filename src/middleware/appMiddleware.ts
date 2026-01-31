@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as UAParserModule from 'ua-parser-js';
+import is from 'is';
+
 
 // Middleware to log User-Agent info
 export function uaLogger(req: Request, res: Response, next: NextFunction) {
@@ -18,6 +20,14 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
         req.path === '/api/login'
     ) {
         return next();
+    }
+
+    // Validate session object using `is`
+    if (!is.object(req.session) || !is.boolean((req.session as any)?.isAuthenticated)) {
+        return res.status(401).json({
+            error: 'Invalid session',
+            login: '/login.html'
+        });
     }
 
     const isAuthenticated = (req.session as any)?.isAuthenticated;

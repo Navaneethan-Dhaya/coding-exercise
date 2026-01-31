@@ -6,3 +6,13 @@ build/
 out/
 *.js
 *.js.map
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+python-scripts/__pycache__/
+/get-pip.py
