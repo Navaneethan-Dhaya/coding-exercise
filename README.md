@@ -31,3 +31,24 @@ npm install
 npm test          # run unit tests
 npm start         # ts-node entrypoint
 npm run build     # tsc → dist/
+```
+
+
+```curl Setup
+curl -X POST http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"username":"admin","password":"admin"}' 
+Ok
+
+curl -X POST http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"username":"yourUsername","password":"yourPassword"}'
+Unauthorized
+
+curl -X GET http://localhost:3000/api/items -H "Content-Type: application/json"
+
+http://localhost:3000/login.html
+http://localhost:3000/inventory.html
+
+```
+
+
+'
+
+

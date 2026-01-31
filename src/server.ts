@@ -11,8 +11,9 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/api/items', async (req, res) => {
   const creds = 'dummy';
-  const nonSortedItems = await getItemsFromDatabase(creds);
-  const items: Item[] = await getSortedItems(nonSortedItems);
+  const items = await getItemsFromDatabase(creds);
+  //const nonSortedItems = await getItemsFromDatabase(creds);
+  //const items: Item[] = await getSortedItems(nonSortedItems);
   res.json({ items });
 });
 

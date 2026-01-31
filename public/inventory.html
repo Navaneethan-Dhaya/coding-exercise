@@ -6,7 +6,7 @@
     <title>Inventory UI</title>
 </head>
 <body>
-<h1>Inventory</h1>
+<h1>Inventory Details</h1>
 <table id="items-table">
     <thead>
     <tr>
@@ -68,17 +68,24 @@
                     tr.innerHTML = `
               <td>${item.id}</td>
               <td>${item.name}</td>
-              <td>${item.quantity.toFixed(3)}</td>
-              <td><input type="number" min="0" step="0.1" value="${item.quantity.toFixed(1)}" style="width: 80px;" /></td>
+              <td>${item.quantity.toFixed(2)}</td>
+              <td><input type="number" min="0" step="0.1" value="${item.quantity.toFixed(2)}" style="width: 80px;" /></td>
               <td><button>Order item</button></td>
             `;
                     tbody.appendChild(tr);
                     const input = tr.querySelector('input');
                     const button = tr.querySelector('button');
                     button.addEventListener('click', () => {
+
+                        const DECIMALS = 2;
+                        const factor = 10 ** DECIMALS;
+                        const round = (n) => Math.round((n + Number.EPSILON) * factor) / factor;
                         const entered = parseFloat(input.value);
-                        if (entered > item.quantity) {
-                            alert(`Order cannot be placed as entered quantity ${entered} is more than available quantity ${item.quantity} for ${item.name}.`);
+                        const enteredRounded = round(entered);
+                        const availableRounded= round(item.quantity);
+                        console.log("entered: ", entered, "available: ", availableRounded);
+                        if (enteredRounded > availableRounded) {
+                            alert(`Order cannot be placed as entered quantity ${entered} is more than available quantity ${availableRounded} for ${item.name}.`);
                         } else {
                             alert(`Order placed for ${entered} of ${item.name}.`);
                         }
