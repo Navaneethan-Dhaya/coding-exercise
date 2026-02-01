@@ -4,16 +4,16 @@ import { CONFIG } from './config';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import express from 'express';
-import is from 'is';
+import itemsRouter from './api/items';
+import loginRouter from './api/login';
 
 
 
 import { uaLogger, requireAuth } from './middleware/appMiddleware';
 import { Item } from './items';
-import { getSortedItems, getSortedItemsNames } from './sortUtil';
+import {  getSortedItemsNames } from './sortUtil';
 
-const app = express();
-const PORT = 3000;
+export const app = express();
 
 // Session setup
 app.use(session({
@@ -33,41 +33,13 @@ app.use(bodyParser.json());
 // Redirect root to login
 app.get('/', (req, res) => res.redirect('/login.html'));
 
-// Login endpoint
-app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
-
-  if (!is.string(username) || !is.string(password)) {
-    return res.status(400).send('Invalid input');
-  }
-
-  if (username === CONFIG.userName && password === CONFIG.userPassword) {
-    (req.session as any).isAuthenticated = true;
-    return res.sendStatus(200);
-  }
-
-  res.sendStatus(401);
-});
-
-// Inventory items API
-app.get('/api/items', requireAuth, async (req, res) => {
-  const creds = CONFIG.dbPassword;
-  const items: Item[] = await getItemsFromDatabase(creds);
-
-  if (!is.array(items) || !items.every(item => is.object(item))) {
-    return res.status(500).send('Invalid items data');
-  }
-
-  res.json({ items });
-});
-
-// Start server
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+app.use('/api/items', itemsRouter);
+app.use('/api/login', loginRouter);
 
 // Optional: sorting example
 async function main(): Promise<void> {
   const items: Item[] = await getItemsFromDatabase(CONFIG.dbPassword);
-  const sortedNames: string[] = await getSortedItemsNames(items.map(i => i.name));
+  const sortedNames: string[] = getSortedItemsNames(items.map(i => i.name));
   console.log('Sorted item names:', sortedNames);
 }
 

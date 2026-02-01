@@ -8,7 +8,7 @@ import {Item} from "./items";
  * @param itemNames - An array of item names to be sorted.
  * @returns A new array containing the sorted item names.
  */
-export async function getSortedItemsNames(itemNames: string[]): Promise<string[]> {
+export async function getSortedItemsNamesByShellSort(itemNames: string[]): Promise<string[]> {
 
   const preprocess = (name: string): string =>
       name.toLowerCase().trim();
@@ -53,6 +53,26 @@ export async function getSortedItemsNames(itemNames: string[]): Promise<string[]
 
   return indexesAndNamesMap.map(([index]) => itemNames[index]);
 }
+
+/**
+ * This function sorts an array of item names in descending order using JavaScript’s built-in Array.sort method with localeCompare.
+ * It performs a case-insensitive, numeric-aware comparison, ensuring values like item10 are ordered correctly relative to item2.
+ * The original input array is not mutated.
+ *
+ * This function takes an array of item names as input and returns a new array with the names sorted in ascending order.
+ * @param itemNames - An array of item names to be sorted.
+ * @returns A new array containing the sorted item names.
+ */
+export function getSortedItemsNames(itemNames: string[]): string[] {
+  return [...itemNames].sort((a, b) =>
+      a.localeCompare(b, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+        ignorePunctuation: true
+      })
+  );
+}
+
 
 /**
  * This function uses the Shell-sort algorithm to sort an array of items.

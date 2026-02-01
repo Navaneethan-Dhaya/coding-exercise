@@ -17,31 +17,14 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     if (
         req.path === '/login.html' ||
         req.path === '/' ||
-        req.path === '/api/login'
+        req.path === '/api/login' ||
+        req.path === '/api/items'
     ) {
         return next();
     }
 
     // Validate session object using `is`
     if (!is.object(req.session) || !is.boolean((req.session as any)?.isAuthenticated)) {
-        return res.status(401).json({
-            error: 'Invalid session',
-            login: '/login.html'
-        });
-    }
-
-    const isAuthenticated = (req.session as any)?.isAuthenticated;
-
-    // Protect API routes - Commented as it will block direct api access
-/*    if (req.path.startsWith('/api/') && !isAuthenticated) {
-        return res.status(401).json({
-            error: 'Unauthorized',
-            login: '/login.html'
-        });
-    }*/
-
-    // Protect HTML pages
-    if (req.path.endsWith('.html') && !isAuthenticated) {
         return res.redirect('/login.html');
     }
 
