@@ -1,4 +1,4 @@
-import {Item} from './items';
+import {Item} from '../models/items';
 
 let cache: Item[] = [];
 

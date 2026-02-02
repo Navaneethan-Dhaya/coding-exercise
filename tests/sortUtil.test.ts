@@ -1,6 +1,6 @@
-import * as sortUtil from '../src/sortUtil';
+import * as sortUtil from '../src/utils/sortUtil';
 
-import {getSortedItemsNames} from "../src/sortUtil";
+import {getSortedItemsNames} from "../src/utils/sortUtil";
 
 describe('getSortedItemsNames', () => {
   it('should sort item names numerically', async () => {

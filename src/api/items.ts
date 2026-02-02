@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { getItemsFromDatabase } from '../service';
+import { getItemsFromDatabase } from '../services/service';
 import {requireAuth} from "../middleware/appMiddleware";
-import {CONFIG} from "../config";
-import {Item} from "../items";
+import {CONFIG} from "../config/config";
+import {Item} from "../models/items";
 import is from 'is';
 
 const router = Router();

@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import is from 'is';
+import {LoginPayload} from "../models/login";
 
 const router = Router();
 
 router.post('/', (req, res) => {
-    const { username, password } = req.body;
+    const { username, password } = req.body as LoginPayload;
 
     if (!is.string(username) || !is.string(password)) {
         return res.status(400).send('Invalid input');

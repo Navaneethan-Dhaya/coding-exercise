@@ -1,4 +1,4 @@
-import {Item} from "./items";
+import {Item} from "../models/items";
 
 /**
  * This function uses the Shell-sort algorithm to sort an array of item names.

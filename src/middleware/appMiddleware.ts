@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import * as UAParserModule from 'ua-parser-js';
 import is from 'is';
-
+import session from 'express-session';
+import express from 'express';
+import path from 'path';
 
 // Middleware to log User-Agent info
 export function uaLogger(req: Request, res: Response, next: NextFunction) {
@@ -13,7 +15,6 @@ export function uaLogger(req: Request, res: Response, next: NextFunction) {
 
 // Middleware to protect pages and APIs
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
-    // Allow login page & login API
     if (
         req.path === '/login.html' ||
         req.path === '/' ||
@@ -23,7 +24,6 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
         return next();
     }
 
-    // Validate session object using `is`
     if (!is.object(req.session) || !is.boolean((req.session as any)?.isAuthenticated)) {
         return res.redirect('/login.html');
     }
@@ -31,4 +31,13 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     next();
 }
 
+// Middleware for session setup
+export const sessionMiddleware = session({
+    secret: 'Qv9!rX2z@B8wLp4#kF1sG7uH6dJ3mC0tN%yR$e',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 } // 1 day
+});
 
+// Middleware for serving static files
+export const staticMiddleware = express.static(path.join(__dirname, '../../public'));
