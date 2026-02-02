@@ -84,7 +84,7 @@
                         const entered = parseFloat(input.value);
                         const enteredRounded = round(entered);
                         const availableRounded= round(item.quantity);
-                        console.log("entered: ", entered, "available: ", availableRounded);
+                        //console.log("entered: ", entered, "available: ", availableRounded);
                         if (enteredRounded > availableRounded) {
                             alert(`Order cannot be placed as entered quantity ${entered} is more than available quantity ${availableRounded} for ${item.name}.`);
                         } else {
