@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getItemsFromDatabase } from '../services/service';
 import {requireAuth} from "../middleware/appMiddleware";
-import {CONFIG} from "../config/config";
+import {CONFIG} from "../configs/config";
 import {Item} from "../models/items";
 import is from 'is';
 

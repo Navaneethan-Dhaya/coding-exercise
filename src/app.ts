@@ -4,7 +4,7 @@ import itemsRouter from './api/items';
 import loginRouter from './api/login';
 import { uaLogger, requireAuth, sessionMiddleware, staticMiddleware } from './middleware/appMiddleware';
 import { getItemsFromDatabase } from './services/service';
-import { CONFIG } from './config/config';
+import { CONFIG } from './configs/config';
 import { Item } from './models/items';
 import { getSortedItemsNames } from './utils/sortUtil';
 
