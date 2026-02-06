@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import * as UAParserModule from 'ua-parser-js';
-import is from 'is';
 import session from 'express-session';
 import express from 'express';
 import path from 'path';
@@ -13,7 +12,7 @@ export function uaLogger(req: Request, res: Response, next: NextFunction) {
     next();
 }
 
-// Middleware to protect pages and APIs
+// Middleware to protect pages and APIs using userId in session
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
     if (
         req.path === '/login.html' ||
@@ -24,11 +23,16 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
         return next();
     }
 
-    if (!is.object(req.session) || !is.boolean((req.session as any)?.isAuthenticated)) {
+    if (!req.session || typeof (req.session as any).userId !== 'string') {
         return res.redirect('/login.html');
     }
 
     next();
+}
+
+// Helper to set user session after successful login
+export function setUserSession(req: Request, userId: string) {
+    (req.session as any).userId = userId;
 }
 
 // Middleware for session setup
