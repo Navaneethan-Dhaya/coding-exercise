@@ -27,7 +27,7 @@ app.use('/api/login', loginRouter);
 // Optional: sorting example
 async function main(): Promise<void> {
   const items: Item[] = await getItemsFromDatabase(CONFIG.dbPassword);
-  const sortedNames: string[] = await getSortedItemsNames(items.map(i => i.name));
+  const sortedNames: string[] = getSortedItemsNames(items.map(i => i.name));
   console.log('Sorted item names:', sortedNames);
 }
 
