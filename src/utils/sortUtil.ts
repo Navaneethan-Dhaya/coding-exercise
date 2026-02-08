@@ -8,7 +8,7 @@ import {Item} from "../models/items";
  * @param itemNames - An array of item names to be sorted.
  * @returns A new array containing the sorted item names.
  */
-export async function getSortedItemsNamesByShellSort(itemNames: string[]): Promise<string[]> {
+export async function getSortedItemsNames(itemNames: string[]): Promise<string[]> {
 
   const preprocess = (name: string): string =>
       name.toLowerCase().trim();
@@ -63,7 +63,7 @@ export async function getSortedItemsNamesByShellSort(itemNames: string[]): Promi
  * @param itemNames - An array of item names to be sorted.
  * @returns A new array containing the sorted item names.
  */
-export function getSortedItemsNames(itemNames: string[]): string[] {
+export function getSortedItemsNamesUsingArraySort(itemNames: string[]): string[] {
   return [...itemNames].sort((a, b) =>
       a.localeCompare(b, undefined, {
         numeric: true,
