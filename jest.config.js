@@ -8,4 +8,8 @@ module.exports = {
   transform: {
     ...tsJestTransformCfg,
   },
+  // Only look at ts files
+  testMatch: ["**/?(*.)+(spec|test).ts?(x)"],
+  testPathIgnorePatterns: ["/dist/", "/build/"],
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 };

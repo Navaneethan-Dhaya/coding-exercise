@@ -1,32 +1,34 @@
 import express from 'express';
-import path from 'path';
-import { getItemsFromDatabase } from './service';
-import { CONFIG } from './config';
+import bodyParser from 'body-parser';
+import itemsRouter from './api/items';
+import loginRouter from './api/login';
+import { uaLogger, requireAuth, sessionMiddleware, staticMiddleware } from './middleware/appMiddleware';
+import { getItemsFromDatabase } from './services/service';
+import { CONFIG } from './configs/config';
+import { Item } from './models/items';
+import { getSortedItemsNames } from './utils/sortUtil';
 
-const app = express();
-const PORT = 3000;
+export const app = express();
 
-app.use(express.static(path.join(__dirname, '../public')));
+// Middleware
+app.use(sessionMiddleware);
+app.use(uaLogger);
+app.use(requireAuth);
+app.use(staticMiddleware);
+app.use(bodyParser.json());
 
-app.get('/api/items', async (req, res) => {
-  const creds = CONFIG.dbPassword;
-  const items = await getItemsFromDatabase(creds);
-  res.json({ items });
-});
+// Redirect root to login
+app.get('/', (req, res) => res.redirect('/login.html'));
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+// Routes
+app.use('/api/items', itemsRouter);
+app.use('/api/login', loginRouter);
 
-import { getSortedItems } from './sortUtil';
-import { Item } from './items';
-
+// Optional: sorting example
 async function main(): Promise<void> {
   const items: Item[] = await getItemsFromDatabase(CONFIG.dbPassword);
-  const sorted: string[] = await getSortedItems(items.map(i => i.name));
-  console.log('Sorted item names:', sorted);
+  const sortedNames: string[] = getSortedItemsNames(items.map(i => i.name));
+  console.log('Sorted item names:', sortedNames);
 }
 
-main().catch(err => {
-  console.error('🔥 Unexpected error', err);
-});
+main().catch(err => console.error('🔥 Unexpected error', err));

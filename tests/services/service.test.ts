@@ -1,5 +1,5 @@
-import { getItemsFromDatabase } from '../src/service';
-import {CONFIG} from "../src/config";
+import { getItemsFromDatabase } from '../../src/services/service';
+import {CONFIG} from "../../src/configs/config";
 const cred = CONFIG.dbPassword
 describe('getItemsFromDatabase', () => {
   it('should return 3 items', async () => {
